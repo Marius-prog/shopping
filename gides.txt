@@ -1,0 +1,35 @@
+## Task for api
+
+Build a RESTful API for a mini shopping app.
+
+### Functional requirements
+
+- Ability to create/remove/read products.
+- Ability calculate cart total without placing an order.
+- Rules for the cart calculation:
+	- Every fifth same type of product item is free;
+	- Total amount cannot exceed 100$;
+	- Apply a 1$ discount when total amount is 20$ or more
+- Ability to place an order.
+- Ability to check order status.
+
+### Technical requirements
+
+- Build a RESTful API using python
+- Pay attention to code structure and architecture. Design the code so that it is easy to add more cart calculation rules in the future.
+- Use any form of storage to save products & orders.
+- Cover the solution with tests.
+- Include README with clear instructions on how to build and run your solution.
+
+### Bonus requirements
+
+- Include API documentation.
+
+
+
+
+-product => type
+-total <= 100
+-if amount is 20 apply discount 1
+-place order
+-check order status
