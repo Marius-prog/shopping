@@ -56,5 +56,5 @@ class ProductsAllInfoSerializer(ModelSerializer):
             'title',
             'category',
             'seller',
-            'photo',
+
         )

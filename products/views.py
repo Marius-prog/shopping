@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,7 +14,7 @@ import pytz
 
 class ProductList(APIView):
     """
-    List all products or create new one
+    List all products or CREATE new product
     """
 
     def get(self, request):
@@ -29,7 +30,7 @@ class ProductList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProductListAPIVIew(ListAPIView):
+class ProductListAPIView(ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
@@ -53,8 +54,14 @@ class SellerViewSet(ModelViewSet):
 
 class ReportView(APIView):
     """
-    POST method ONLY
+    POST
     """
+
+    def get_object(self, pk):
+        try:
+            return Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            raise status.HTTP_404_NOT_FOUND
 
     def post(self, request):
         data = request.data
@@ -73,7 +80,7 @@ class ReportView(APIView):
             date_formatted = datetime.strptime(date, '%d/%m/%Y %H:%M:%S')
             date_formatted = pytz.utc.localize(date_formatted)
             obj, created = Product.objects.update_or_create(
-                asin=product.get('asin'),
+
                 seller=seller_obj,
                 category=category_obj,
                 defaults={
@@ -106,3 +113,33 @@ class ReportView(APIView):
             raise exceptions.ValidationError(
                 'date is null'
             )
+
+
+class ProductDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+
+    def get_object(self, pk):
+        try:
+            return Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, *args, **kwargs):
+        product = self.get_object(pk)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+
+    def put(self, request, pk, *args, **kwargs):
+        product = self.get_object(pk)
+        serializer = ProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, *args, **kwargs):
+        product = self.get_object(pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
