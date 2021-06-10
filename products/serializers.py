@@ -1,14 +1,31 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Category, Product
+from .models import Category, Product, Seller
 
 
 class CategorySerializer(ModelSerializer):
+    random_photo = SerializerMethodField()
+
+    def get_random_photo(self, obj):
+        try:
+            return obj.products.first().photo
+        except:
+            return ""
+
     class Meta:
         model = Category
         fields = (
             'id',
             'name',
-            'slug',
+            'random_photo'
+        )
+
+
+class SellerSerializer(ModelSerializer):
+    class Meta:
+        model = Seller
+        fields = (
+            'id',
+            'name'
         )
 
 
@@ -16,31 +33,28 @@ class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = (
-            'category',
-            'name',
-            'slug',
-            'image',
-            'description',
+            'id',
+            'photo',
             'price',
-            'available',
-            'created',
-            'updated',
+            'title',
+            'category',
+            'seller',
+
         )
 
 
-class ProductAllInfoSerializer(ModelSerializer):
+class ProductsAllInfoSerializer(ModelSerializer):
     category = CategorySerializer()
+    seller = SellerSerializer()
 
     class Meta:
         model = Product
         fields = (
-            'category',
-            'name',
-            'slug',
-            'image',
-            'description',
+            'id',
+            'photo',
             'price',
-            'available',
-            'created',
-            'updated',
+            'title',
+            'category',
+            'seller',
+            'photo',
         )
