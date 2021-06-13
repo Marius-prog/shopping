@@ -1,10 +1,11 @@
+from django.contrib.auth.models import User
 from django.db import models
 
-from products.models import Product, Seller
+from products.models import Product
 
 
 class Cart(models.Model):
-    cart_id = models.OneToOneField(Seller, on_delete=models.CASCADE, primary_key=True)
+    cart_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     products = models.ManyToManyField(Product)
 

@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Category, Product, Seller
+from .models import Category, Product
 
 
 class CategorySerializer(ModelSerializer):
@@ -20,15 +20,6 @@ class CategorySerializer(ModelSerializer):
         )
 
 
-class SellerSerializer(ModelSerializer):
-    class Meta:
-        model = Seller
-        fields = (
-            'id',
-            'name'
-        )
-
-
 class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
@@ -38,14 +29,12 @@ class ProductSerializer(ModelSerializer):
             'price',
             'title',
             'category',
-            'seller',
 
         )
 
 
 class ProductsAllInfoSerializer(ModelSerializer):
     category = CategorySerializer()
-    seller = SellerSerializer()
 
     class Meta:
         model = Product
@@ -55,9 +44,17 @@ class ProductsAllInfoSerializer(ModelSerializer):
             'price',
             'title',
             'category',
-            'seller',
 
         )
 
 
+class ProductListViewSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            'id',
+            'photo',
+            'price',
+            'title',
 
+        ]

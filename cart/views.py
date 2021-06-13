@@ -1,9 +1,8 @@
-from rest_framework import generics, status
-from rest_framework.response import Response
+from django.contrib.auth.models import User
 from rest_framework.viewsets import ModelViewSet
 
 from cart.models import Cart
-from cart.serializer import CartSerializer
+from cart.serializer import CartSerializer, UserSerializer
 
 
 class ListCart(ModelViewSet):
@@ -14,3 +13,8 @@ class ListCart(ModelViewSet):
 class DetailCart(ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+
+
+class UserViewSet(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
