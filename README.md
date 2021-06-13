@@ -2,7 +2,7 @@
 
 ## shopping API
 
-### Setup Python Virtual Environment
+## Setup Python Virtual Environment
 
 
 clone repo https://github.com/Marius-prog/shopping.git
@@ -16,7 +16,7 @@ python3 -m venv venv
 pip3 install -r requirements.txt
 
 
-### Running Server
+## Running Server
 
 
 Make sure to be in shopping directory.
@@ -26,6 +26,6 @@ python mange.py migrate
 python mange.py runserver
 
 
-### shopping API documentation
+## shopping API documentation
 
 Go and check endpoints http://127.0.0.1:8000/docs/ 
